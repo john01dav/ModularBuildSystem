@@ -1,0 +1,5 @@
+modules:
+  main-module:
+    src-dir: ./main-module/src
+    include-dir: ./main-module/include
+    libraries: ["yaml-cpp"]
