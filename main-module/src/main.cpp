@@ -17,24 +17,11 @@ int main(int argc, char *argv[]){
     //load modules
     YAML::Node modulesFile = YAML::LoadFile("modules.yml");
     YAML::Node modulesNode = modulesFile["modules"];
-    for(auto it=modulesNode.begin();it!=modulesNode.end();++it){
-      Module module(
-        it->first.as<std::string>(),
-        it->second["src-dir"].as<std::string>(),
-        it->second["include-dir"].as<std::string>()
-      );
-
-      YAML::Node libraries = it->second["libraries"];
-      for(auto lit=libraries.begin();lit!=libraries.end();++lit){
-        module.libraries().push_back(lit->as<std::string>());
-      }
-
-      module.buildSourceList();
-
-      modules.push_back(std::move(module)); //can use std::move safely since this is the last statement in the loop
+    for(YAML::const_iterator it=modulesNode.begin();it!=modulesNode.end();++it){
+      modules.push_back(Module(it));
     }
 
-    //print module list
+    //print module list (Temporary code)
     for(Module &module : modules){
       log(INFO, "Module Name: " + module.name());
       log(INFO, "Source Path: " + module.srcPath());

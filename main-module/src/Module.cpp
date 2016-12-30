@@ -6,7 +6,19 @@
 
 using namespace boost;
 
-void Module::buildSourceList(){
+Module::Module(const std::string &name, const YAML::Node &node) :
+  m_name(name),
+  m_srcPath(node["src-dir"].as<std::string>()),
+  m_includePath(node["include-dir"].as<std::string>())
+{
+  YAML::Node libraries = node["libraries"];
+
+  for(YAML::const_iterator it=libraries.begin();it!=libraries.end();++it){
+    m_libraries.push_back(it->as<std::string>());
+  }
+}
+
+void Module::rebuildSourceList(){
   filesystem::path sourceDir(m_srcPath);
 
   if(!filesystem::exists(sourceDir)){

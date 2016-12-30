@@ -3,13 +3,14 @@
 
 #include <string>
 #include <vector>
+#include <yaml-cpp/yaml.h>
 
 class Module{
 public:
-  Module(const std::string &name, const std::string &srcPath, const std::string &includePath)
-    : m_name(name), m_srcPath(srcPath), m_includePath(includePath) {}
+  Module(const std::string &name, const YAML::Node &node);
+  Module(const YAML::const_iterator &it) : Module(it->first.as<std::string>(), it->second) {} //allow the direct creation of a Mmodule from a node + name
 
-  void buildSourceList();
+  void rebuildSourceList();
 
   const std::string& name() const { return m_name; }
   const std::string& srcPath() const { return m_srcPath; }
