@@ -2,8 +2,8 @@ modules:
   main-module:
     src-dir: ./main-module/src
     include-dir: ./main-module/include
-    libraries: ["yaml-cpp"]
-  tests-module: #this isn't a real module -- it is just here to make sure that the system is able to handle more than one
-    src-dir: ./tests-module/src
-    include-dir: ./tests-module/include
-    libraries: ["module:main-module", "yaml-cpp"]
+    libraries: ["yaml-cpp", "boost_filesystem"]
+#  tests-module: #this isn't a real module -- it is just here to make sure that the system is able to handle more than one module
+#    src-dir: ./tests-module/src
+#    include-dir: ./tests-module/include
+#    libraries: ["module:main-module", "yaml-cpp"]
