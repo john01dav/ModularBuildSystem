@@ -1,5 +1,7 @@
 #include <iostream>
 #include <vector>
+#include <fstream>
+
 #include <yaml-cpp/yaml.h>
 
 #include "log.h"
@@ -40,6 +42,13 @@ int main(int argc, char *argv[]){
       }
 
       log(INFO, "");
+    }
+
+    //emit makefile
+    std::ofstream fout("Makefile");
+
+    for(Module &module : modules){
+      module.emitMakeTargets(fout);
     }
 
     return 0;

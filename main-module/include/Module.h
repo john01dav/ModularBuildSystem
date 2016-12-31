@@ -16,6 +16,7 @@ public:
   explicit Module(const YAML::const_iterator &it) : Module(it->first.as<std::string>(), it->second) {} //allow the direct creation of a Module from a node + name
 
   void rebuildSourceList();
+  void emitMakeTargets(std::ostream &out) const;
 
   const std::string& name() const { return m_name; }
   const boost::filesystem::path& srcPath() const { return m_srcPath; }

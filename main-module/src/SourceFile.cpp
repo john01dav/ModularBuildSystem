@@ -1,6 +1,7 @@
 #include "SourceFile.h"
 
 #include <istream>
+#include <ostream>
 #include <algorithm>
 #include <stdexcept>
 
@@ -33,4 +34,11 @@ SourceFile::SourceFile(const filesystem::path &path, const filesystem::path &inc
     }
   }
 
+}
+
+std::string SourceFile::emitMakeTarget(std::ostream &out, const Module &module) const{
+  std::string output = "./bin/" + module.name() + "/" + m_path.filename().native() + ".o";
+  out << output << ":" << std::endl;
+  out << "\tg++ --std=c++11 -I" << module.includePath().native() << " -c " << m_path.native() << " -o " << output << std::endl;
+  return output;
 }

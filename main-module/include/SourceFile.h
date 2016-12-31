@@ -3,8 +3,11 @@
 
 #include <string>
 #include <vector>
+#include <ostream>
 
 #include <boost/filesystem.hpp>
+
+class Module;
 
 class SourceFile{
 public:
@@ -13,7 +16,7 @@ public:
   const boost::filesystem::path& path() const { return m_path; }
   const std::vector<boost::filesystem::path>& includePaths() const { return m_includePaths; }
 
-  void emitMakeTarget(std::ostream &out);
+  std::string emitMakeTarget(std::ostream &out, const Module &module) const;
 
 private:
   const boost::filesystem::path m_path;

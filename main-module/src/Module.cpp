@@ -37,3 +37,31 @@ void Module::rebuildSourceList(){
     m_sourceFiles.push_back(SourceFile(*it, m_includePath));
   }
 }
+
+void Module::emitMakeTargets(std::ostream &out) const{
+  //add dependency make targets and record names of each target
+  std::vector<std::string> dependencyTargets;
+  for(const SourceFile &sourceFile : m_sourceFiles){
+    dependencyTargets.push_back(sourceFile.emitMakeTarget(out, *this));
+  }
+
+  //create the executable target name
+  std::string executableOut = "./bin/" + m_name + "/" + m_name;
+
+  //output executable target header
+  out << executableOut << ": ";
+  for(std::string &target : dependencyTargets){
+    out << target << " ";
+  }
+  out << std::endl;
+
+  //output linking command
+  out << "\t" << "g++ ";
+  for(std::string &target : dependencyTargets){ //output standard targets
+    out << target << " ";
+  }
+  for(const std::string &library : m_libraries){ //output library paths -- only static libraries supported ATM
+    out << library << " ";
+  }
+  out << "-o " << executableOut << std::endl;
+}
