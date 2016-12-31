@@ -4,6 +4,8 @@
 
 #include <boost/filesystem.hpp>
 
+#include "SourceFile.h"
+
 using namespace boost;
 
 Module::Module(const std::string &name, const YAML::Node &node) :
@@ -16,6 +18,8 @@ Module::Module(const std::string &name, const YAML::Node &node) :
   for(YAML::const_iterator it=libraries.begin();it!=libraries.end();++it){
     m_libraries.push_back(it->as<std::string>());
   }
+
+  rebuildSourceList();
 }
 
 void Module::rebuildSourceList(){
@@ -30,6 +34,6 @@ void Module::rebuildSourceList(){
   }
 
   for(filesystem::directory_iterator it=filesystem::directory_iterator(sourceDir);it!=filesystem::directory_iterator();++it){
-    m_sourceFiles.push_back(it->path().native());
+    m_sourceFiles.push_back(SourceFile(*it, m_includePath));
   }
 }

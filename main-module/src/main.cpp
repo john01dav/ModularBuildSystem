@@ -35,8 +35,8 @@ int main(int argc, char *argv[]){
       log(INFO, libraries);
 
       log(INFO, "Source Files: ");
-      for(const std::string &str : module.sourceFiles()){
-        log(INFO, str);
+      for(const SourceFile &file : module.sourceFiles()){
+        std::cout << file.path().native() << ", "; //no need to create a new log line
       }
 
       log(INFO, "");

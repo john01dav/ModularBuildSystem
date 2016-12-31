@@ -5,6 +5,8 @@
 #include <vector>
 #include <yaml-cpp/yaml.h>
 
+#include "SourceFile.h"
+
 class Module{
 public:
   Module(const std::string &name, const YAML::Node &node);
@@ -16,7 +18,7 @@ public:
   const std::string& srcPath() const { return m_srcPath; }
   const std::string& includePath() const { return m_includePath; }
   const std::vector<std::string>& libraries() const { return m_libraries; }
-  const std::vector<std::string>& sourceFiles() const { return m_sourceFiles; }
+  const std::vector<SourceFile>& sourceFiles() const { return m_sourceFiles; }
 
   std::vector<std::string>& libraries() { return m_libraries; }
 
@@ -25,7 +27,7 @@ private:
   std::string m_srcPath;
   std::string m_includePath;
   std::vector<std::string> m_libraries;
-  std::vector<std::string> m_sourceFiles;
+  std::vector<SourceFile> m_sourceFiles;
 };
 
 #endif
