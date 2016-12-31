@@ -24,8 +24,8 @@ int main(int argc, char *argv[]){
     //print module list (Temporary code)
     for(Module &module : modules){
       log(INFO, "Module Name: " + module.name());
-      log(INFO, "Source Path: " + module.srcPath());
-      log(INFO, "Include Path" + module.includePath());
+      log(INFO, "Source Path: " + module.srcPath().native());
+      log(INFO, "Include Path: " + module.includePath().native());
 
       std::string libraries = "Libraries: ";
       for(const std::string &library : module.libraries()){

@@ -26,11 +26,11 @@ void Module::rebuildSourceList(){
   filesystem::path sourceDir(m_srcPath);
 
   if(!filesystem::exists(sourceDir)){
-    throw std::invalid_argument("Source directory does not exist: " + m_srcPath);
+    throw std::invalid_argument("Source directory does not exist: " + m_srcPath.native());
   }
 
   if(!filesystem::is_directory(sourceDir)){
-    throw std::invalid_argument("Source directory is not a directory: " + m_srcPath);
+    throw std::invalid_argument("Source directory is not a directory: " + m_srcPath.native());
   }
 
   for(filesystem::directory_iterator it=filesystem::directory_iterator(sourceDir);it!=filesystem::directory_iterator();++it){
