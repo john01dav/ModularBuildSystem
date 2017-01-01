@@ -11,15 +11,18 @@ class Module;
 
 class SourceFile{
 public:
-  SourceFile(const boost::filesystem::path &path, const boost::filesystem::path &includePath);
+  SourceFile(const boost::filesystem::path &path, const Module &module);
 
+  const std::string& makeTargetName() const { return m_makeTarget; }
   const boost::filesystem::path& path() const { return m_path; }
   const std::vector<boost::filesystem::path>& includePaths() const { return m_includePaths; }
 
-  std::string emitMakeTarget(std::ostream &out, const Module &module) const;
+  void emitMakeTarget(std::ostream &out) const;
 
 private:
-  const boost::filesystem::path m_path;
+  const Module &m_module;
+  std::string m_makeTarget;
+  boost::filesystem::path m_path;
   std::vector<boost::filesystem::path> m_includePaths;
 };
 

@@ -34,15 +34,14 @@ void Module::rebuildSourceList(){
   }
 
   for(filesystem::directory_iterator it=filesystem::directory_iterator(sourceDir);it!=filesystem::directory_iterator();++it){
-    m_sourceFiles.push_back(SourceFile(*it, m_includePath));
+    m_sourceFiles.push_back(SourceFile(*it, *this));
   }
 }
 
 void Module::emitMakeTargets(std::ostream &out) const{
   //add dependency make targets and record names of each target
-  std::vector<std::string> dependencyTargets;
   for(const SourceFile &sourceFile : m_sourceFiles){
-    dependencyTargets.push_back(sourceFile.emitMakeTarget(out, *this));
+    sourceFile.emitMakeTarget(out);
   }
 
   //create the executable target name
@@ -50,15 +49,15 @@ void Module::emitMakeTargets(std::ostream &out) const{
 
   //output executable target header
   out << executableOut << ": ";
-  for(std::string &target : dependencyTargets){
-    out << target << " ";
+  for(const SourceFile &sourceFile : m_sourceFiles){
+    out << sourceFile.makeTargetName() << " ";
   }
   out << std::endl;
 
   //output linking command
   out << "\t" << "g++ ";
-  for(std::string &target : dependencyTargets){ //output standard targets
-    out << target << " ";
+  for(const SourceFile &sourceFile : m_sourceFiles){ //output standard .o files
+    out << sourceFile.makeTargetName() << " ";
   }
   for(const std::string &library : m_libraries){ //output library paths -- only static libraries supported ATM
     out << library << " ";

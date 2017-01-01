@@ -11,7 +11,11 @@
 
 using namespace boost;
 
-SourceFile::SourceFile(const filesystem::path &path, const filesystem::path &includePath) : m_path(path){
+SourceFile::SourceFile(const filesystem::path &path, const Module &module) :
+  m_module(module),
+  m_makeTarget("./bin/" + module.name() + "/" + path.filename().native() + ".o"),
+  m_path(path)
+{
   std::ifstream fin(m_path.native()); //use member variables here instead of constructor arguments to ease any sort of future need to move this code into a standard member function
   std::string line;
 
@@ -23,7 +27,7 @@ SourceFile::SourceFile(const filesystem::path &path, const filesystem::path &inc
       std::string::iterator firstQuote = std::find(line.begin(), line.end(), '"');
       if(firstQuote != line.end()){ //verify that this is really an include (or at least close enough), and, if so, find the second quote (on the next line)
         std::string::iterator secondQuote = std::find(firstQuote+1, line.end(), '"'); //firstQuote+1 is reliable because it will, at worst, be the same as line.end() C++ compiler will probably handle any furtherm malformed includes (ie. '#include "Module.h""')
-        filesystem::path includedFilePath = includePath / std::string(firstQuote+1, secondQuote);
+        filesystem::path includedFilePath = module.includePath() / std::string(firstQuote+1, secondQuote);
         m_includePaths.push_back(includedFilePath);
 
         //print an error if a missing include is included here to give a more useful message than something make may output
@@ -33,12 +37,9 @@ SourceFile::SourceFile(const filesystem::path &path, const filesystem::path &inc
       }
     }
   }
-
 }
 
-std::string SourceFile::emitMakeTarget(std::ostream &out, const Module &module) const{
-  std::string output = "./bin/" + module.name() + "/" + m_path.filename().native() + ".o";
-  out << output << ":" << std::endl;
-  out << "\tg++ --std=c++11 -I" << module.includePath().native() << " -c " << m_path.native() << " -o " << output << std::endl;
-  return output;
+void SourceFile::emitMakeTarget(std::ostream &out) const{
+  out << m_makeTarget << ":" << std::endl;
+  out << "\tg++ --std=c++11 -I" << m_module.includePath().native() << " -c " << m_path.native() << " -o " << m_makeTarget << std::endl;
 }
