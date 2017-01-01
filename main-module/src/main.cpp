@@ -48,6 +48,9 @@ int main(int argc, char *argv[]){
     //emit makefile
     std::ofstream fout("Makefile");
 
+    fout << "default: " << std::endl;
+    fout << "\t@echo Please choose the file name to build as an argument to the makefile." << std::endl;
+
     for(Module *module : modules){
       module->emitMakeTargets(fout);
       delete module;

@@ -40,6 +40,13 @@ SourceFile::SourceFile(const filesystem::path &path, const Module &module) :
 }
 
 void SourceFile::emitMakeTarget(std::ostream &out) const{
-  out << m_makeTarget << ":" << std::endl;
+  //make target header
+  out << m_makeTarget << ": " << m_path.native() << " ";
+  for(const filesystem::path &path : m_includePaths){
+    out << path.native() << " ";
+  }
+  out << std::endl;
+
+  //make target command
   out << "\tg++ --std=c++11 -I" << m_module.includePath().native() << " -c " << m_path.native() << " -o " << m_makeTarget << std::endl;
 }
