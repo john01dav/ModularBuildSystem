@@ -14,6 +14,9 @@ class Module{
 public:
   Module(const std::string &name, const YAML::Node &node);
   explicit Module(const YAML::const_iterator &it) : Module(it->first.as<std::string>(), it->second) {} //allow the direct creation of a Module from a node + name
+  Module(const Module &module) = delete;
+
+  Module operator=(const Module &module) = delete;
 
   void rebuildSourceList();
   void emitMakeTargets(std::ostream &out) const;
