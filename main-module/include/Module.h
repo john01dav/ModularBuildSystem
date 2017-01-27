@@ -18,6 +18,7 @@ public:
 
   Module operator=(const Module &module) = delete;
 
+  void printModule();
   void rebuildSourceList();
   void emitMakeTargets(std::ostream &out) const;
 

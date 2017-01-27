@@ -1,10 +1,12 @@
 #include "Module.h"
 
 #include <stdexcept>
+#include <iostream>
 
 #include <boost/filesystem.hpp>
 
 #include "SourceFile.h"
+#include "log.h"
 
 using namespace boost;
 
@@ -20,6 +22,12 @@ Module::Module(const std::string &name, const YAML::Node &node) :
   }
 
   rebuildSourceList();
+}
+
+void Module::printModule(){
+  log(INFO, "Module Name: " + m_name);
+  log(INFO, "Source Path: " + m_srcPath.native());
+  log(INFO, "Include Path: " + m_includePath.native());
 }
 
 void Module::rebuildSourceList(){
