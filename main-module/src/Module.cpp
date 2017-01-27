@@ -53,11 +53,8 @@ void Module::emitMakeTargets(std::ostream &out) const{
     sourceFile.emitMakeTarget(out);
   }
 
-  //create the executable target name
-  std::string executableOut = "./bin/" + m_name + "/" + m_name;
-
   //output executable target header
-  out << executableOut << ": ";
+  out << makeTarget() << ": ";
   for(const SourceFile &sourceFile : m_sourceFiles){
     out << sourceFile.makeTargetName() << " ";
   }
@@ -71,5 +68,5 @@ void Module::emitMakeTargets(std::ostream &out) const{
   for(const std::string &library : m_libraries){ //output library paths -- only static libraries supported ATM
     out << library << " ";
   }
-  out << "-o " << executableOut << std::endl;
+  out << "-o " << makeTarget() << std::endl;
 }

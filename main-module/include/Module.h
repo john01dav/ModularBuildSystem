@@ -22,6 +22,7 @@ public:
   void rebuildSourceList();
   void emitMakeTargets(std::ostream &out) const;
 
+  std::string makeTarget() const { return "./bin/" + m_name + "/" + m_name; }
   const std::string& name() const { return m_name; }
   const boost::filesystem::path& srcPath() const { return m_srcPath; }
   const boost::filesystem::path& includePath() const { return m_includePath; }

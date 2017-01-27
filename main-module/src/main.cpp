@@ -17,6 +17,7 @@ int main(int argc, char *argv[]){
 
     project.printProject();
     project.createMakefile();
+    project.buildAllModules();
 
     return 0;
   }catch(std::exception &ex){

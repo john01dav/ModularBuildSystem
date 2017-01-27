@@ -14,6 +14,7 @@ public:
   void printProject();
   void createMakefile();
   void reparse();
+  void buildAllModules();
 
 private:
   std::vector<std::shared_ptr<Module>> m_modules;
