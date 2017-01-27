@@ -33,6 +33,7 @@ void Module::rebuildSourceList(){
     throw std::invalid_argument("Source directory is not a directory: " + m_srcPath.native());
   }
 
+  m_sourceFiles.clear();
   for(filesystem::directory_iterator it=filesystem::directory_iterator(sourceDir);it!=filesystem::directory_iterator();++it){
     m_sourceFiles.push_back(SourceFile(*it, *this));
   }
