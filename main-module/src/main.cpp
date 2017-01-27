@@ -13,7 +13,7 @@ int main(int argc, char *argv[]){
     log(INFO, "Modular Build System Version " + VERSION);
     log(INFO, "");
 
-    Project project("./");
+    Project project;
 
     project.printProject();
     project.createMakefile();
