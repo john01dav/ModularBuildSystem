@@ -5,7 +5,7 @@
 
 #include <boost/filesystem.hpp>
 
-#include "SourceFile.h"
+#include "ImplementationFile.h"
 #include "log.h"
 
 using namespace boost;
@@ -41,28 +41,28 @@ void Module::rebuildSourceList(){
     throw std::invalid_argument("Source directory is not a directory: " + m_srcPath.native());
   }
 
-  m_sourceFiles.clear();
+  m_implementationFiles.clear();
   for(filesystem::directory_iterator it=filesystem::directory_iterator(sourceDir);it!=filesystem::directory_iterator();++it){
-    m_sourceFiles.push_back(SourceFile(*it, *this));
+    m_implementationFiles.push_back(ImplementationFile(*it, *this));
   }
 }
 
 void Module::emitMakeTargets(std::ostream &out) const{
   //add dependency make targets and record names of each target
-  for(const SourceFile &sourceFile : m_sourceFiles){
+  for(const ImplementationFile &sourceFile : m_implementationFiles){
     sourceFile.emitMakeTarget(out);
   }
 
   //output executable target header
   out << makeTarget() << ": ";
-  for(const SourceFile &sourceFile : m_sourceFiles){
+  for(const ImplementationFile &sourceFile : m_implementationFiles){
     out << sourceFile.makeTargetName() << " ";
   }
   out << std::endl;
 
   //output linking command
   out << "\t" << "g++ ";
-  for(const SourceFile &sourceFile : m_sourceFiles){ //output standard .o files
+  for(const ImplementationFile &sourceFile : m_implementationFiles){ //output standard .o files
     out << sourceFile.makeTargetName() << " ";
   }
   for(const std::string &library : m_libraries){ //output library paths -- only static libraries supported ATM

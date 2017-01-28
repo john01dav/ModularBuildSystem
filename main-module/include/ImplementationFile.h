@@ -9,9 +9,9 @@
 
 class Module;
 
-class SourceFile{
+class ImplementationFile{
 public:
-  SourceFile(const boost::filesystem::path &path, const Module &module);
+  ImplementationFile(const boost::filesystem::path &path, const Module &module);
 
   const std::string& makeTargetName() const { return m_makeTarget; }
   const boost::filesystem::path& path() const { return m_path; }

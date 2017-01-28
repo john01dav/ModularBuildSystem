@@ -1,4 +1,4 @@
-#include "SourceFile.h"
+#include "ImplementationFile.h"
 
 #include <istream>
 #include <ostream>
@@ -12,7 +12,7 @@
 
 using namespace boost;
 
-SourceFile::SourceFile(const filesystem::path &path, const Module &module) :
+ImplementationFile::ImplementationFile(const filesystem::path &path, const Module &module) :
   m_module(module),
   m_makeTarget("./bin/" + module.name() + "/" + path.filename().native() + ".o"),
   m_path(path)
@@ -20,7 +20,7 @@ SourceFile::SourceFile(const filesystem::path &path, const Module &module) :
   parseFile(module, m_includePaths, path);
 }
 
-void SourceFile::emitMakeTarget(std::ostream &out) const{
+void ImplementationFile::emitMakeTarget(std::ostream &out) const{
   //make target header
   out << m_makeTarget << ": " << m_path.native() << " ";
   for(const filesystem::path &path : m_includePaths){
