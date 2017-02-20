@@ -24,7 +24,7 @@ Module::Module(const std::string &name, const YAML::Node &node) :
   rebuildSourceList();
 }
 
-void Module::printModule(){
+void Module::printModule() const{
   log(INFO, "Module Name: " + m_name);
   log(INFO, "Source Path: " + m_srcPath.native());
   log(INFO, "Include Path: " + m_includePath.native());

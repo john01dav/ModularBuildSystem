@@ -13,8 +13,10 @@ int main(int argc, char *argv[]){
     log(INFO, "Modular Build System Version " + VERSION);
     log(INFO, "");
 
+    //project object always exists in current directory, class used for
+    //conceptual grouping and MBS is not designed to have more than one
+    //instance of it
     Project project;
-
     project.printProject();
     project.createMakefile();
     project.buildAllModules();

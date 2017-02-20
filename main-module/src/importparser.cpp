@@ -1,6 +1,6 @@
 #include "importparser.h"
 
-#include <vector>
+#include <set>
 #include <fstream>
 
 #include <boost/filesystem.hpp>
@@ -9,7 +9,7 @@
 
 using namespace boost;
 
-void parseFile(const Module &module, std::vector<boost::filesystem::path> &includes, const filesystem::path &file){
+void parseFile(const Module &module, std::set<boost::filesystem::path> *includes, const filesystem::path &file){
   std::ifstream fin(file.native());
   std::string line;
 
@@ -22,7 +22,7 @@ void parseFile(const Module &module, std::vector<boost::filesystem::path> &inclu
       if(firstQuote != line.end()){ //verify that this is really an include (or at least close enough), and, if so, find the second quote (on the next line)
         std::string::iterator secondQuote = std::find(firstQuote+1, line.end(), '"'); //firstQuote+1 is reliable because it will, at worst, be the same as line.end() C++ compiler will probably handle any further malformed includes (ie. '#include "Module.h""')
         filesystem::path includedFilePath = module.includePath() / std::string(firstQuote+1, secondQuote);
-        includes.push_back(includedFilePath);
+        includes->insert(includedFilePath);
 
         //print an error if a missing include is included here to give a more useful message than something make may output
         if(!filesystem::exists(includedFilePath) || !filesystem::is_regular_file(includedFilePath)){

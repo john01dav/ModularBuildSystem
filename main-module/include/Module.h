@@ -12,16 +12,20 @@
 
 class Module{
 public:
+  //constructors to create a module from a YAML::Node
   Module(const std::string &name, const YAML::Node &node);
-  explicit Module(const YAML::const_iterator &it) : Module(it->first.as<std::string>(), it->second) {} //allow the direct creation of a Module from a node + name
-  Module(const Module &module) = delete;
+  explicit Module(const YAML::const_iterator &it) : Module(it->first.as<std::string>(), it->second) {} //allow the direct creation of a Module from a node with a name in a single object
 
+  //modules can not be copied
+  Module(const Module &module) = delete;
   Module operator=(const Module &module) = delete;
 
-  void printModule();
+  //actions
+  void printModule() const;
   void rebuildSourceList();
   void emitMakeTargets(std::ostream &out) const;
 
+  //accesors
   std::string makeTarget() const { return "./bin/" + m_name + "/" + m_name; }
   const std::string& name() const { return m_name; }
   const boost::filesystem::path& srcPath() const { return m_srcPath; }

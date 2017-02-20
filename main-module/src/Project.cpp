@@ -25,6 +25,7 @@ void Project::createMakefile(){
   for(std::shared_ptr<Module> module : m_modules) fout << module->makeTarget() << " ";
   fout << std::endl;
 
+  //output various targets for each module
   for(std::shared_ptr<Module> module : m_modules){
     module->emitMakeTargets(fout);
   }

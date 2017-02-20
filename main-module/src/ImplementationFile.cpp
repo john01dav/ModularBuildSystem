@@ -17,7 +17,7 @@ ImplementationFile::ImplementationFile(const filesystem::path &path, const Modul
   m_makeTarget("./bin/" + module.name() + "/" + path.filename().native() + ".o"),
   m_path(path)
 {
-  parseFile(module, m_includePaths, path);
+  parseFile(module, &m_includePaths, path);
 }
 
 void ImplementationFile::emitMakeTarget(std::ostream &out) const{

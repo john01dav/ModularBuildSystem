@@ -2,7 +2,7 @@
 #define SOURCEFILE_H
 
 #include <string>
-#include <vector>
+#include <set>
 #include <ostream>
 
 #include <boost/filesystem.hpp>
@@ -15,7 +15,7 @@ public:
 
   const std::string& makeTargetName() const { return m_makeTarget; }
   const boost::filesystem::path& path() const { return m_path; }
-  const std::vector<boost::filesystem::path>& includePaths() const { return m_includePaths; }
+  const std::set<boost::filesystem::path>& includePaths() const { return m_includePaths; }
 
   void emitMakeTarget(std::ostream &out) const;
 
@@ -23,7 +23,7 @@ private:
   const Module &m_module;
   std::string m_makeTarget;
   boost::filesystem::path m_path;
-  std::vector<boost::filesystem::path> m_includePaths;
+  std::set<boost::filesystem::path> m_includePaths;
 };
 
 #endif
